@@ -1,0 +1,156 @@
+﻿@model IEnumerable<HospitalHelperMVC.Models.MultipleClass>
+
+@{
+    ViewBag.Title = "Patient-Doctor Details";
+
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .App-div {
+            position: absolute;
+            left: 16.5%;
+            top: 7.5%;
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+    <h1>-</h1>
+
+
+
+
+    @* ---------------------------------------------------------------------------------------------------------------------------------- *@
+    @* Header ---------------------------------------------------------------------------------------------------------------------------------*@
+
+
+
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="@Url.Action("Index","Home")" class="logo">
+                    <img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Hospital Helper</span>
+
+                </a>
+            </div>
+
+            <ul class="nav user-menu float-right">
+                
+
+                <li>
+                    <a>
+                        <span class="user-img">
+                            <img class="rounded-circle" src="~/assets/img/user.jpg" width="24" alt="Admin">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@Session["userName"].ToString()</span>
+                    </a>
+
+
+                </li>
+            </ul>
+
+        </div>
+
+        @* -----------Navigation---------------------------------------------------------------------------------------------------------------------------------- *@
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li>
+                            <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ReadDoctor","Home")" )"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Patient")"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Appointment")"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+
+
+                        <li class="active">
+                            <a href="@Url.Action("Index","PatientDoctor")"><i class="fa fa-calendar-check-o"></i> <span>Patient-Doctor</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index","PatientBed")"><i class="fa fa-bed"></i> <span>Patient-Bed</span></a>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+                        <li>
+                            <a href="@Url.Action("LogOut","Login")"><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Log Out</span></a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @* Details-------------------------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+        <div class="App-div">
+            <div class="float-md-right float-md-end">
+
+                <table class="table table-striped table-striped" style="width: 320%">
+                    <tr>
+                        <th>Patient Names</th>
+
+                        <th>Department</th>
+
+                        <th>Doctor Names</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.patientdetails.Patient_name</td>
+
+                            <td>@item.doctordetails.Department</td>
+                            <td>@item.doctordetails.Doctor_name</td>
+                        </tr>
+                    }
+                </table>
+                @section appointment_scripts
+            {
+                    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+                    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+
+                }
+
+            </div>
+            <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        </div>
+    </div>
+</body>
+</html>

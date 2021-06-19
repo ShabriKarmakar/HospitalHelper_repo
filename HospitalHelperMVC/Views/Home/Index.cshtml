@@ -1,0 +1,471 @@
+﻿@using HospitalHelperMVC.Models
+@model AppDoc
+
+
+@{
+    //Layout = null;
+    ViewBag.Title = "Home Page";
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+
+    int counter = 0;
+    foreach(var appointment in Model.Appointments)
+    {
+        counter= counter + 1;
+    }
+
+    int fdoccounter = 0;
+    foreach (var fdoctor in Model.FDoctors)
+    {
+        if(fdoctor.status == true)
+                {
+                    fdoccounter = fdoccounter + 1;
+
+                }
+
+    }
+
+    int patcounter = 0;
+    foreach (var patients in Model.Patients)
+    {
+        patcounter = patcounter + 1;
+    }
+
+    int doccounter = 0;
+    foreach (var patients in Model.Patients)
+    {
+        doccounter = doccounter + 1;
+    }
+
+}
+
+
+
+
+
+
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Home Page</title>
+        <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.ico">
+        <title>Hospital Helper</title>
+
+        <style>
+            .Appointment-div {
+                position: absolute;
+                left: 17.01%;
+                width: 83%;
+                top: 95%;
+            }
+
+
+            .widget-div {
+                position: absolute;
+                left: -2%;
+                width: 100%;
+            }
+
+
+            .Doctor-div {
+                position: absolute;
+                left: 65.5%;
+                width: 36%;
+            }
+
+            .pat-div {
+                position: absolute;
+                left: 29%;
+                width: 69%;
+            }
+        </style>
+
+
+
+    </head>
+    <body>
+
+
+
+
+
+        @* Header ---------------------------------------------------------------------------------------------------------------------------------*@
+
+        <div class="main-wrapper">
+            <div class="header">
+                <div class="header-left">
+                    <a href="@Url.Action("Index", "Home")" class="logo">
+                        <img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Hospital Helper</span>
+
+                    </a>
+                </div>
+
+                <ul class="nav user-menu float-right">
+
+
+                    <li>
+                        <a>
+                            <span class="user-img">
+                                <img class="rounded-circle" src="~/assets/img/user.jpg" width="24" alt="Admin">
+                                <span class="status online"></span>
+                            </span>
+                            <span>@Session["userName"].ToString()</span>
+                        </a>
+
+
+                    </li>
+                </ul>
+
+            </div>
+
+
+
+            @* -----------Navigation---------------------------------------------------------------------------------------------------------------------------------- *@
+
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-inner slimscroll">
+                    <div id="sidebar-menu" class="sidebar-menu">
+                        <ul>
+                            <li class="menu-title">Menu</li>
+                            <li class="active">
+                                <a href="@Url.Action("Index", "Home")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("ReadDoctor", "Home")"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Patient")"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Appointment")"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "PatientDoctor")"><i class="fa fa-calendar-check-o"></i> <span>Patient-Doctor</span></a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "PatientBed")"><i class="fa fa-bed"></i> <span>Patient-Bed</span></a>
+                            </li>
+
+
+                            <li>
+                                <a href="@Url.Action("LogOut", "Login")"><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Log Out</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            @* Widgets-------------------------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+        <div class="widget-div">
+            <div class="page-wrapper">
+                <div class="content">
+
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+                                <div class="dash-widget-info text-right">
+                                    <h3>@doccounter</h3>
+                                    <span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                                <div class="dash-widget-info text-right">
+                                    <h3>@patcounter</h3>
+                                    <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
+                                <div class="dash-widget-info text-right">
+                                    <h3>@fdoccounter</h3>
+                                    <span class="widget-title3"> Attend <i class="fa fa-check" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                            <div class="dash-widget">
+                                <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
+                                <div class="dash-widget-info text-right">
+                                    <h3>@counter</h3>
+                                    <span class="widget-title4">Appointments<i class="fa fa-check" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            @*End of  Widgets-------------------------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+            @*Patents Table----------------------------------------------------------------------------------------------------------------------------------------*@
+
+
+
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6 col-xl-8 col-xl-8">
+                    <div class="pat-div">
+                        <div class="card  member-panel">
+
+                            <div class="card-header">
+                                <h4 class="card-title d-inline-block">Patients </h4> <a href="@Url.Action("Index", "Patient")" class="btn btn-primary float-right">View all</a>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+
+                                    <table id="patientTable" class="table mb-0 new-patient-table" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Patient Name</th>
+                                                <th>Age</th>
+                                                <th>Symptoms</th>
+                                                <th>Department</th>
+                                                <th>Emergency Contact</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                @section readpatients_scripts{
+
+
+
+                    <script type="text/javascript">
+
+                        $(document).ready(function () {
+                            $("#patientTable").DataTable({
+                                "iDisplayLength": 5,
+                                "bPaginate": false,
+                                "bFilter": false,
+                                "bInfo": false,
+
+                                "ajax": {
+                                    "url": "/Home/GetData",
+                                    "type": "GET",
+                                    "datatype": "json"
+
+                                },
+                                "columns": [
+                                    { "data": "Patient_name", "autoWidth": true },
+                                    { "data": "Age", "autoWidth": true },
+                                    { "data": "Symptoms", "autoWidth": true },
+                                    { "data": "Department", "autoWidth": true },
+                                    { "data": "Emergency_contact", "autoWidth": true }
+
+                                ]
+
+                            });
+
+                        });
+
+                    </script>
+                }
+
+
+                @*End of Patents Table----------------------------------------------------------------------------------------------------------------------------------------*@
+
+
+                @*Doctors Table----------------------------------------------------------------------------------------------------------------------------------------*@
+
+                <div class="Doctor-div">
+
+                    <div class="card member-panel">
+                        <div class="card-header bg-white">
+                            <h4 class="card-title d-inline-block">Doctors</h4><a href="@Url.Action("ReadDoctor", "Home")" class="btn btn-primary float-right">View all</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-striped" style="width:100%">
+                                    <tr>
+
+                                        <th>Doctor Name</th>
+                                        <th>Department</th>
+                                        <th>Status</th>
+
+
+
+
+                                    </tr>
+
+                                    @foreach (var fdoctor in Model.FDoctors)
+                                    {
+
+
+                                        <tr style='color: @(fdoctor.status != true ? "Red" : "black");'>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => fdoctor.d_name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => fdoctor.department)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => fdoctor.status)
+                                            </td>
+
+
+                                        </tr>
+                                    }
+
+
+
+
+
+                                </table>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+       
+
+        @*End of Doctors Table----------------------------------------------------------------------------------------------------------------------------------------*@
+
+
+
+        @* Appointment Table-------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+
+        @* End od Appointment table---------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+        @* End of Card-------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+        <div class="Appointment-div">
+            <div class="card member-panel">
+                <div class="card-header bg-white">
+                    <h4 class="card-title d-inline-block">Appointment</h4><a href="@Url.Action("Index", "Appointment")" class="btn btn-primary float-right">View all</a>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-striped table-striped" style="width:100%">
+                        <tr>
+
+
+                            <th>Name</th>
+                            <th>Emergency Number</th>
+                            <th>Age</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Date and Time</th>
+
+
+
+                        </tr>
+
+                        @foreach (var appointment in Model.Appointments)
+                        {
+
+
+                    <tr style='color: @(appointment.type == "VICTIM" ? "Red" : "black");'>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.emergencyNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.age)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => appointment.timestamp)
+                        </td>
+
+                    </tr>
+                        }
+
+
+                   
+
+
+                    </table>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="sidebar-overlay" data-reff=""></div>
+
+
+
+        @*<script src="assets/js/popper.min.js"></script>*@
+
+        <script src="assets/js/Chart.bundle.js"></script>
+
+
+
+    </body>
+</html>
+
+
+
+
+
+

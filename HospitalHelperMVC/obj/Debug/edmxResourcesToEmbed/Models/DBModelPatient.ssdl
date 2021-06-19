@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HospHelperModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="PatientTable">
+    <Key>
+      <PropertyRef Name="PatientID" />
+    </Key>
+    <Property Name="PatientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Patient_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Age" Type="int" />
+    <Property Name="Symptoms" Type="nvarchar" MaxLength="50" />
+    <Property Name="Department" Type="nvarchar" MaxLength="50" />
+    <Property Name="Emergency_contact" Type="nvarchar" MaxLength="50" />
+    <Property Name="Due_pay" Type="int" />
+  </EntityType>
+  <Function Name="CreateViewAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="DoctorCreateOrUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Doc_ID" Type="int" Mode="In" />
+    <Parameter Name="Doc_nm" Type="nvarchar" Mode="In" />
+    <Parameter Name="Speciality" Type="nvarchar" Mode="In" />
+    <Parameter Name="Availability" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="nvarchar" Mode="In" />
+    <Parameter Name="Date_Join" Type="date" Mode="In" />
+  </Function>
+  <Function Name="DoctorDeleteByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Doc_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DoctorViewAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="DoctorViewByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Doc_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PatientCreateOrUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="P_Code" Type="int" Mode="In" />
+    <Parameter Name="Patient_nm" Type="nvarchar" Mode="In" />
+    <Parameter Name="Age" Type="int" Mode="In" />
+    <Parameter Name="Symptoms" Type="nvarchar" Mode="In" />
+    <Parameter Name="Diagnosis" Type="nvarchar" Mode="In" />
+    <Parameter Name="Emergency_con" Type="nvarchar" Mode="In" />
+    <Parameter Name="Assigned_doc" Type="nvarchar" Mode="In" />
+    <Parameter Name="Date_Admit" Type="date" Mode="In" />
+    <Parameter Name="Insurance" Type="bit" Mode="In" />
+    <Parameter Name="Ins_no" Type="nvarchar" Mode="In" />
+    <Parameter Name="Due_pay" Type="money" Mode="In" />
+  </Function>
+  <Function Name="PatientDeleteByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="P_Code" Type="int" Mode="In" />
+  </Function>
+  <Function Name="PatientsViewByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="P_Code" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_CheckLoginDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="HospHelperModel1StoreContainer">
+    <EntitySet Name="PatientTable" EntityType="Self.PatientTable" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

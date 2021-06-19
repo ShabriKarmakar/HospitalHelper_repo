@@ -1,0 +1,267 @@
+﻿@model HospitalHelperMVC.Models.PatientTable
+@{
+
+    ViewBag.Title = "Patient Details";
+
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/Login/Index");
+    }
+}
+
+
+    <h2>---</h2>
+
+    @* ---------------------------------------------------------------------------------------------------------------------------------- *@
+
+    @* Header ---------------------------------------------------------------------------------------------------------------------------------*@
+
+
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="@Url.Action("Index","Home")" class="logo">
+                    <img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Hospital Helper</span>
+                </a>
+            </div>
+
+
+            <ul class="nav user-menu float-right">
+               
+                
+
+                <li>
+                    <a>
+                        <span class="user-img">
+                            <img class="rounded-circle" src="~/assets/img/user.jpg" width="24" alt="Admin">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@Session["userName"].ToString()</span>
+                    </a>
+
+
+                </li>
+            </ul>
+
+        </div>
+
+
+
+        @* -----------Navigation---------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Main</li>
+                        <li>
+                            <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ReadDoctor","Home")" )"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="@Url.Action("Index","Patient")"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Appointment")"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index","PatientDoctor")"><i class="fa fa-calendar-check-o"></i> <span>Patient-Doctor</span></a>
+                        </li>
+
+                        
+
+                        <li>
+                            <a href="@Url.Action("Index","PatientBed")"><i class="fa fa-bed"></i> <span>Patient-Bed</span></a>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+                        <li>
+                            <a href="@Url.Action("LogOut","Login")"><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Log Out</span></a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @* Details---------------------------------------------------------------------------------------------------------------------------------- *@
+
+        <div class="float-md-right float-md-end">
+
+            <a class="btn btn-success" onclick="PopupForm('@Url.Action("AddOrEdit","Patient")')"><i class="fa fa-plus"></i> Add New</a>
+            <table id="patientTable" class="table table-striped table-striped" style="width: 101.9%">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>Symptoms</th>
+                        <th>Department</th>
+                        <th>Emergency Contact</th>
+                        <th>Due Pay</th>
+                        <th>Bed ID</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    </div>
+
+
+
+
+    @*--------------------------------------------------------------------------------------------------------------------------------------*@
+
+    @section patient_scripts
+    {
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+        <script>
+
+        var Popup, dataTable;
+
+        $(document).ready(function () {
+            dataTable= $("#patientTable").DataTable({
+                "ajax": {
+                    "url": "/Patient/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "Patient_name", "autoWidth": true },
+                    { "data": "Age", "autoWidth": true },
+                    { "data": "Symptoms", "autoWidth": true },
+                    { "data": "Department", "autoWidth": true},
+                    { "data": "Emergency_contact", "autoWidth": true },
+                    { "data": "Due_pay", "autoWidth": true },
+                    { "data": "BedID", "autoWidth": true },
+                    {
+                        "data": "PatientID", "render": function (data) {                  //"data"== PatientID(current)---- For Updating and Mirroring the credential in the popup window
+                            return "<a class='btn btn-default btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Patient")/" + data + "')><i class='fa fa-pencil'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete("+data+")><i class='fa fa-trash'></i> Delete</a>";
+                    },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+
+                    }
+                ],
+
+                "language": {
+                    "emptyTable": "No data found, Please click on <b>Add New</b> Button"
+
+
+                }
+            });
+        });
+
+
+        //Poppup Function For AddOrEdit----------------------------------------
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen: true,
+                        resizable: true,
+                        title: 'Fill Patient Details',
+                        height: 500,
+                        width: 700,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+
+                    });
+                });
+
+        }
+
+        //Submit Function----------------------------------------
+
+        //Submit Function----------------------------------------
+
+        //Submit Function----------------------------------------
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);         //To check Validation Error
+
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success)               //ON Success close popup and refresh the page
+                        {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+
+
+
+                });
+            }
+            return false;
+
+        }
+
+//javascript for Delete-------------------------------
+            function Delete(id) {
+            if(confirm('Are You Sure to Delete this Patient Record ?'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Patient")/' + id,
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+
+                });
+            }
+        }
+
+        </script>
+
+
+
+    }

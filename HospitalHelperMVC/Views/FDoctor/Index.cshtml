@@ -1,0 +1,168 @@
+﻿
+@model IEnumerable<HospitalHelperMVC.Models.FDoctor>
+@{
+    //Layout = null;
+    ViewBag.Title = "Real-Time Doctor Details";
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/AdminLogin/Index");
+    }
+}
+<h2>Real-Time Doctor Details</h2>
+
+<p>
+    <a class="btn btn-success" onclick=@Html.ActionLink("Create New", "Create")> </a>
+</p>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .App-div {
+            position: absolute;
+            left: 56%;
+            top: 15%;
+        }
+
+        .button-div {
+            position: absolute;
+            left: 16.7%;
+            top: 7.5%;
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+    <h1>-</h1>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="@Url.Action("Index","AdminHome")" class="logo">
+                    <img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Hospital Helper (Admin)</span>
+
+                </a>
+            </div>
+
+            <ul class="nav user-menu float-right">
+                
+
+                <li>
+                    <a>
+                        <span class="user-img">
+                            <img class="rounded-circle" src="~/assets/img/user.jpg" width="24" alt="Admin">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@Session["userName"].ToString()</span>
+                    </a>
+
+
+                </li>
+            </ul>
+
+        </div>
+
+        @* -----------Navigation---------------------------------------------------------------------------------------------------------------------------------- *@
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">Menu</li>
+                        <li>
+                            <a href="@Url.Action("Index","AdminHome")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","Doctor")"><i class="fa fa-user-md"></i> <span>Doctors List</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="@Url.Action("Index","FDoctor")"><i class="fa fa-user-md"></i> <span>Real-Time Doctors</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index","Bed")"><i class="fa fa-bed"></i> <span>Beds</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("LogOut","AdminLogin")"><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Log Out</span></a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        @* Details-------------------------------------------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+
+        <div class="button-div">
+            <a class="btn btn-success" style="margin-bottom:10px" onclick=@Html.ActionLink("Create New", "Create")> </a>
+        </div>
+
+        <div class="App-div">
+            <div class="float-md-right float-md-end" style="width: 180%">
+
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.doctor_id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.d_name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.department)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.speciality)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.status)
+                        </th>
+                        <th></th>
+                    </tr>
+
+
+                  
+
+                    @foreach (var item in Model)
+                    {
+                <tr style='color: @(item.status != true ? "Red" : "black");'>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.doctor_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.d_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.department)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.speciality)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.status)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.doctor_id }, new { @class = "btn btn-primary btn-sm " }) 
+                        
+                        @Html.ActionLink("Delete", "Delete", new { id = item.doctor_id }, new { @class = "btn btn-danger btn-sm " })
+                    </td>
+                </tr>
+                    }
+
+                </table>
+
+
+            </div>
+            <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+        </div>
+    </div>
+</body>
+</html>

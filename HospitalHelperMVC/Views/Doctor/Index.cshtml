@@ -1,0 +1,255 @@
+﻿
+@{
+    //Layout = null;
+    ViewBag.Title = "Doctor Details";
+    if (Session["userID"] == null)
+    {
+        Response.Redirect("~/AdminLogin/Index");
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .Doc-div {
+            position: absolute;
+            left: 17%;
+            top: 7.5%;
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="@Url.Action("Index","AdminHome")" class="logo">
+                    <img src="~/assets/img/logo.png" width="35" height="35" alt=""> <span>Hospital Helper (Admin)</span>
+                </a>
+            </div>
+
+
+            <ul class="nav user-menu float-right">
+               
+
+                <li>
+                    <a>
+                        <span class="user-img">
+                            <img class="rounded-circle" src="~/assets/img/user.jpg" width="24" alt="Admin">
+                            <span class="status online"></span>
+                        </span>
+                        <span>@Session["userName"].ToString()</span>
+                    </a>
+
+
+                </li>
+            </ul>
+
+        </div>
+
+
+
+        @* -----------Navigation---------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+
+                        <li class="menu-title">Menu</li>
+                        <li>
+                            <a href="@Url.Action("Index","AdminHome")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+                        </li>
+                        <li class="active">
+                            <a href="@Url.Action("Index","Doctor")"><i class="fa fa-user-md"></i> <span>Doctors List</span></a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","FDoctor")"><i class="fa fa-user-md"></i> <span>Real-Time Doctors</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("Index","Bed")"><i class="fa fa-bed"></i> <span>Beds</span></a>
+                        </li>
+
+                        <li>
+                            <a href="@Url.Action("LogOut","AdminLogin")"><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Log Out</span></a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Details---------------------------------------------------------------------------------------------------------------------------------- *@
+
+
+
+    <h2>Doctor Details</h2>
+    <div class="Doc-div">
+        <a class="btn btn-success" style="margin-bottom:10px" onclick="PopupForm('@Url.Action("AddOrEdit","Doctor")')"><i class="fa fa-plus"></i> Add New</a>   @*('@Url.Action("AddOrEdit", "Doctor")')------ can also use /Doctor/AddOrEdit*@
+
+        <table id="doctorTable" class="table table-striped table-striped" style="width: 132%">
+            <thead>
+                <tr>
+
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Availability</th>
+
+                    <th></th>
+
+
+
+
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+</body>
+</html>
+
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+@section doctor_scripts
+    {
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+    <script>
+        var Popup, dataTable;
+        $(document).ready(function () {
+            dataTable= $("#doctorTable").DataTable({
+                "ajax": {
+                    "url": "/Doctor/GetData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Doctor_name", "autoWidth": true },
+                    { "data": "Department", "autoWidth": true },
+                    { "data": "Availability", "autoWidth": true },
+
+
+                    {
+                        "data": "DoctorID", "render": function (data) {                  //"data"== DoctorID(current)---- For Updating and Mirroring the credential in the popup window
+                            return "<a class='btn btn-default btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit","Doctor")/" + data + "')><i class='fa fa-pencil'></i> Edit</a><a class='btn btn-danger btn-sm' style='margin-left:5px' onclick=Delete("+data+")><i class='fa fa-trash'></i> Delete</a>";
+                    },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+
+                    }
+
+
+
+                ],
+
+                "language": {
+                    "emptyTable": "No data found, Please click on <b>Add New</b> Button"
+
+               }
+
+
+            });
+        });
+
+
+
+        //Poppup Function For AddOrEdit----------------------------------------
+        function PopupForm(url) {
+           var formDiv = $('<div/>');
+            $.get(url)
+                .done(function (response) {
+                    formDiv.html(response);
+
+                    Popup = formDiv.dialog({
+                        autoOpen:true,
+                        resizable: false,
+                        title: 'Fill Doctor Details',
+                        height: 500,
+                        width: 700,
+                        close: function () {
+                            Popup.dialog('destroy').remove();
+                        }
+
+                    });
+                });
+        }
+
+
+        //Submit Function----------------------------------------
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);         //To check Validation Error
+
+            if($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success)               //ON Success close popup and refresh the page
+                        {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+
+
+
+                });
+            }
+            return false;
+
+        }
+           //javascript for Delete-------------------------------
+            function Delete(id) {
+            if(confirm('Are You Sure to Delete this Doctor Record ?'))
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Doctor")/' + id,
+                    success: function (data) {
+                        if (data.success)
+                        {
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                    }
+
+                });
+            }
+        }
+
+    </script>
+
+
+
+
+}
+

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HospHelperModelStoreContainer" CdmEntityContainer="HospHelperEntities">
+    <EntitySetMapping Name="BedTables">
+      <EntityTypeMapping TypeName="HospHelperModel.BedTable">
+        <MappingFragment StoreEntitySet="BedTable">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="BedID" ColumnName="BedID" />
+          <ScalarProperty Name="Ward_No" ColumnName="Ward_No" />
+          <ScalarProperty Name="Ward_type" ColumnName="Ward_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorDepts">
+      <EntityTypeMapping TypeName="HospHelperModel.DoctorDept">
+        <MappingFragment StoreEntitySet="DoctorDept">
+          <ScalarProperty Name="DoctDeptID" ColumnName="DoctDeptID" />
+          <ScalarProperty Name="Doctor_name" ColumnName="Doctor_name" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Designation" ColumnName="Designation" />
+          <ScalarProperty Name="Speciality" ColumnName="Speciality" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DoctorTables">
+      <EntityTypeMapping TypeName="HospHelperModel.DoctorTable">
+        <MappingFragment StoreEntitySet="DoctorTable">
+          <ScalarProperty Name="DoctorID" ColumnName="DoctorID" />
+          <ScalarProperty Name="Doctor_name" ColumnName="Doctor_name" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PatientTables">
+      <EntityTypeMapping TypeName="HospHelperModel.PatientTable">
+        <MappingFragment StoreEntitySet="PatientTable">
+          <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+          <ScalarProperty Name="Patient_name" ColumnName="Patient_name" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Symptoms" ColumnName="Symptoms" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Emergency_contact" ColumnName="Emergency_contact" />
+          <ScalarProperty Name="Due_pay" ColumnName="Due_pay" />
+          <ScalarProperty Name="BedID" ColumnName="BedID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reception_Log">
+      <EntityTypeMapping TypeName="HospHelperModel.Reception_Log">
+        <MappingFragment StoreEntitySet="Reception_Log">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

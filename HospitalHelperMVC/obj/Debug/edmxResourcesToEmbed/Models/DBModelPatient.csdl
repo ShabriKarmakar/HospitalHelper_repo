@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HospHelperModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PatientTable">
+    <Key>
+      <PropertyRef Name="PatientID" />
+    </Key>
+    <Property Name="PatientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Patient_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Symptoms" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Department" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Emergency_contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Due_pay" Type="Int32" />
+  </EntityType>
+  <EntityContainer Name="DBModelPatient" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PatientTables" EntityType="Self.PatientTable" />
+    <FunctionImport Name="CreateViewAll" />
+    <FunctionImport Name="DoctorCreateOrUpdate">
+      <Parameter Name="Doc_ID" Mode="In" Type="Int32" />
+      <Parameter Name="Doc_nm" Mode="In" Type="String" />
+      <Parameter Name="Speciality" Mode="In" Type="String" />
+      <Parameter Name="Availability" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Date_Join" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="DoctorDeleteByID">
+      <Parameter Name="Doc_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DoctorViewAll" ReturnType="Collection(HospHelperModel1.DoctorViewAll_Result)" />
+    <FunctionImport Name="DoctorViewByID" ReturnType="Collection(HospHelperModel1.DoctorViewByID_Result)">
+      <Parameter Name="Doc_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PatientCreateOrUpdate">
+      <Parameter Name="P_Code" Mode="In" Type="Int32" />
+      <Parameter Name="Patient_nm" Mode="In" Type="String" />
+      <Parameter Name="Age" Mode="In" Type="Int32" />
+      <Parameter Name="Symptoms" Mode="In" Type="String" />
+      <Parameter Name="Diagnosis" Mode="In" Type="String" />
+      <Parameter Name="Emergency_con" Mode="In" Type="String" />
+      <Parameter Name="Assigned_doc" Mode="In" Type="String" />
+      <Parameter Name="Date_Admit" Mode="In" Type="DateTime" />
+      <Parameter Name="Insurance" Mode="In" Type="Boolean" />
+      <Parameter Name="Ins_no" Mode="In" Type="String" />
+      <Parameter Name="Due_pay" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="PatientDeleteByID">
+      <Parameter Name="P_Code" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="PatientsViewByID">
+      <Parameter Name="P_Code" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="usp_CheckLoginDetails" ReturnType="Collection(Boolean)">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="DoctorViewAll_Result">
+    <Property Type="Int32" Name="Doc_ID" Nullable="false" />
+    <Property Type="String" Name="Doc_nm" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Speciality" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Availability" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Date_Join" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="DoctorViewByID_Result">
+    <Property Type="Int32" Name="Doc_ID" Nullable="false" />
+    <Property Type="String" Name="Doc_nm" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Speciality" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Availability" Nullable="true" MaxLength="4" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="Date_Join" Nullable="true" />
+  </ComplexType>
+</Schema>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HospHelperModel1StoreContainer" CdmEntityContainer="DBModelPatient">
+    <EntitySetMapping Name="PatientTables">
+      <EntityTypeMapping TypeName="HospHelperModel1.PatientTable">
+        <MappingFragment StoreEntitySet="PatientTable">
+          <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+          <ScalarProperty Name="Patient_name" ColumnName="Patient_name" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Symptoms" ColumnName="Symptoms" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Emergency_contact" ColumnName="Emergency_contact" />
+          <ScalarProperty Name="Due_pay" ColumnName="Due_pay" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CreateViewAll" FunctionName="HospHelperModel1.Store.CreateViewAll" />
+    <FunctionImportMapping FunctionImportName="DoctorCreateOrUpdate" FunctionName="HospHelperModel1.Store.DoctorCreateOrUpdate" />
+    <FunctionImportMapping FunctionImportName="DoctorDeleteByID" FunctionName="HospHelperModel1.Store.DoctorDeleteByID" />
+    <FunctionImportMapping FunctionImportName="DoctorViewAll" FunctionName="HospHelperModel1.Store.DoctorViewAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HospHelperModel1.DoctorViewAll_Result">
+          <ScalarProperty Name="Doc_ID" ColumnName="Doc_ID" />
+          <ScalarProperty Name="Doc_nm" ColumnName="Doc_nm" />
+          <ScalarProperty Name="Speciality" ColumnName="Speciality" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Date_Join" ColumnName="Date_Join" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DoctorViewByID" FunctionName="HospHelperModel1.Store.DoctorViewByID">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="HospHelperModel1.DoctorViewByID_Result">
+          <ScalarProperty Name="Doc_ID" ColumnName="Doc_ID" />
+          <ScalarProperty Name="Doc_nm" ColumnName="Doc_nm" />
+          <ScalarProperty Name="Speciality" ColumnName="Speciality" />
+          <ScalarProperty Name="Availability" ColumnName="Availability" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Date_Join" ColumnName="Date_Join" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="PatientCreateOrUpdate" FunctionName="HospHelperModel1.Store.PatientCreateOrUpdate" />
+    <FunctionImportMapping FunctionImportName="PatientDeleteByID" FunctionName="HospHelperModel1.Store.PatientDeleteByID" />
+    <FunctionImportMapping FunctionImportName="PatientsViewByID" FunctionName="HospHelperModel1.Store.PatientsViewByID" />
+    <FunctionImportMapping FunctionImportName="usp_CheckLoginDetails" FunctionName="HospHelperModel1.Store.usp_CheckLoginDetails" />
+  </EntityContainerMapping>
+</Mapping>

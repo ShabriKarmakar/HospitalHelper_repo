@@ -1,0 +1,110 @@
+﻿@model HospitalHelperMVC.Models.Reception_Log
+
+
+
+
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/styles/font-awesome.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/img/favicon.ico">
+    <link href="~/styles/style.css" rel="stylesheet" />
+    <style>
+
+
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+
+
+</head>
+
+
+
+<body>
+
+   
+
+    <h1>Reception Login</h1>
+    <div class="clear-loading spinner">
+        <span></span>
+    </div>
+    <div class="w3ls-login box box--big">
+        <!-- form starts here -->
+        @using (Html.BeginForm("Authourize", "Login", FormMethod.Post))
+        {
+
+            @Html.AntiForgeryToken()    // this is for prevent Cross site request forgery attack 
+            <div class="agile-field-txt">
+                <label><i class="fa fa-user" aria-hidden="true"></i> Username </label>
+                <input type="text" id="UserName" name="UserName" placeholder="Enter User Name" required="" />
+
+
+            </div>
+
+
+
+
+            <div class="agile-field-txt">
+
+                <label><i class="fa fa-unlock-alt" aria-hidden="true"></i> password </label>
+
+                <input type="Password" name="Password" placeholder="Enter Password" required="" id="Password" />
+
+
+                <div class="agile_label">
+                    <input id="check3" name="check3" type="checkbox" value="show password" onclick="myFunction()">
+                    <label class="check" for="check3">Show password</label>
+                </div>
+
+
+            </div>
+
+
+
+
+            <script>
+                function myFunction() {
+                    var x = document.getElementById("Password");
+                    if (x.type === "password") {
+                        x.type = "text";
+                    } else {
+                        x.type = "password";
+                    }
+                }
+            </script>
+
+
+
+
+
+
+            <input type="submit" value="LOGIN">
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+</body>
+</html>
